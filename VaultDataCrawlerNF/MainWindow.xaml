@@ -1,0 +1,70 @@
+﻿<Window x:Class="VaultDataCrawlerNF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VaultDataCrawlerNF"
+        mc:Ignorable="d"
+        SizeToContent="WidthAndHeight"
+        Title="MainWindow"  Width="684">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+
+            <RowDefinition Height="Auto"/>
+
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Margin="20">
+
+
+            <StackPanel Width="300">
+                <TextBlock Text="Suchen nach Original Create Date:" FontSize="14" FontWeight="Bold" Foreground="#FF9C5959"/>
+                <TextBlock Text="StartDatum:"/>
+                <DatePicker Name="StartDatePicker" SelectedDate="{Binding StartDate}"/>
+                <TextBlock Text="EndDatum:"/>
+                <DatePicker Name="EndDatePicker" SelectedDate="{Binding EndDate}"/>
+                <TextBlock Text="Anzahl der Files:"/>
+                <ComboBox Name="FileCountComboBox" ItemsSource="{Binding NumberList}" SelectedItem="{Binding NumberOfFiles}"/>
+                <Button Content="Abfragen" Margin="20" Command="{Binding DownloadFilesCommand}" Width="160" />
+            </StackPanel>
+            <Border Width="20" Background="Transparent"/>
+
+            <StackPanel Width="300">
+                <TextBlock Text="File Path enthält:" FontSize="14" FontWeight="Bold" Foreground="#FF9C5959"/>
+                <TextBlock Text="Suchen in"/>
+                <Grid>
+                    <ListView ItemsSource="{Binding FolderProjects}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Width="50">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding Cloaked, Mode=TwoWay}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Ordner" DisplayMemberBinding="{Binding FullName}" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
+                <TextBlock Text="Search Condition(Papierkorb):"/>
+                <TextBox x:Name="SearchText" Height="26" Text="{Binding SearchText}"/>
+                <Button Content="Abfragen" Margin="20" Command="{Binding DownloadPapierkorbCommand}" Width="160" />
+            </StackPanel>
+
+        </StackPanel>
+        <TextBox x:Name="ConsoleOutput" Grid.Row="1" IsReadOnly="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Height="300" Text="{Binding ConsoleOutputText, Mode=OneWay}" />
+
+
+        <DockPanel Grid.Row="2" HorizontalAlignment="Center">
+            <Button Content="Ordner öffnen" DockPanel.Dock="Left" Margin="10" Width="100" Height="30" Command="{Binding OpenFolderCommand}"/>
+            <Button Content="Exit" DockPanel.Dock="Left" Margin="10" Width="100" Height="30" Command="{Binding ExitCommand}"/>
+        </DockPanel>
+    </Grid>
+
+
+
+</Window>
